@@ -1,0 +1,129 @@
+<!--  <!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body onload="render()">
+
+	<section class="layout-content" layout:fragment="corpo" >
+		<nav class="navbar navbar-expand-md bg-light">
+			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><i class="oi oi-caret-right"></i>
+						<span>Compra de Passagens</span></li>
+				</ul>
+				<a class="btn btn-primary btn-md" href="/compras/detalhes"
+					role="button"> <span class="oi oi-plus" title="Cadastro"
+					aria-hidden="true"></span> <span>Detalhes</span>
+				</a>
+			</div>
+		</nav>
+
+		<div class="container">
+
+
+
+			<div th:replace="fragments/alert"></div>
+
+			<div class="container">
+				<div class="card card-register mx-auto mt-4">
+					<div class="card-header">
+						<i class="fa-fighter-jet"></i> Comprar Passagem
+					</div>
+
+					<div class="card-body">
+					
+					<div th:replace="fragments/alert"></div>
+
+						<form th:action="@{/compras/salvar}" th:object="${compra}"
+							method="POST">
+
+							<div class="text-left col-md-8">
+								<p>Dados do Cliente</p>
+								<hr />
+								<div id="table-cliente">
+								</div>
+								<p>Dados da Passagem</p>
+								<hr />
+								<div id="table-passagem">
+								</div>
+							</div> 				
+														
+
+							<div class="form-group">
+								<div class="col-md-6">
+									<small class="form-text text-muted">Informe a
+										Quantidade</small> <input type="text" id="quantidade"
+										onkeyup="keyNumber(this)" class="form-control"
+										name="quantidade" autofocus="autofocus" required>
+									<!-- th:field="*{quantidade}" -->
+								<!--  </div>
+								<div class="invalid-feedback"></div>
+							</div>
+
+                           <!--  <div class="form-group">
+								<div class="col-md-6">
+									<small class="form-text text-muted">Data
+										</small> <input type="data" id="dataCompra"
+										 class="form-control"
+										name="dataCompra"  autofocus="autofocus" th:text="${compra.dataCompra}"  required>
+									
+								</div>
+								<div class="invalid-feedback"></div>
+							</div>  -->
+                            
+
+
+							<!--  <div class="col-md-8">
+								<small class="form-text text-muted">Escolha o valor</small> <select
+									id="valor" onclick="calValue(this)" name="valor"
+									class="form-control">
+									<option value="0">0</option>
+									<option value="1000">1000</option>
+									<option value="2000">2000</option>
+									<option value="3000">3000</option>
+								</select>
+							</div>
+							<br>
+
+							<div class="col-md-8" id="show"></div>
+
+							<div class="col-md-8">
+								<small class="form-text text-muted">Escolha Forma de
+									Pagamento</small> <select id="tipoPagamento"
+									 name="tipoPagamento"
+									class="form-control">
+									<option value="BOLETO">Boleto</option>
+									<option value="CARTAO">Cartao</option>
+								</select>
+								
+								<br>
+								<div>
+								<button type="submit" class="btn btn-primary btn-sm">Comprar</button>
+							</div>
+							<br>
+
+							</div>
+							<br>
+
+						</form>
+
+						</div>
+						<br>
+					
+					</div>
+					
+
+
+				</div>
+
+
+			</div>
+		
+
+
+
+		<div class="table-responsive"></div>
+	</section>
+</body>
+</html>-->
