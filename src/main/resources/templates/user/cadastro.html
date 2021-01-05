@@ -1,63 +1,96 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}">
-<head><meta charset="UTF-8"/></head>
-<body>
-	
-	    <section class="layout-content" layout:fragment="corpo">
-	
-	        <nav class="navbar navbar-expand-md bg-light">
-	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	                <ul class="navbar-nav mr-auto">
-	                    <li class="nav-item active">
-	                        <i class="oi oi-caret-right"></i>
-	                        <span>Cadastrar Usuário</span>
-	                    </li>
-	                </ul>
-	                <a class="btn btn-primary btn-md" th:href="@{/usuario/listar}" role="button">
-	                    <span class="oi oi-spreadsheet" title="Listar" aria-hidden="true"></span>
-	                    <span>Listar Usuarios</span>
-	                </a>
-	            </div>
-	        </nav>
-	
-	        <div class="container" id="cadastro">
-	        
-	         	<div th:replace="fragments/alert"></div> 
-	        	
-	        
-	            <!--<form th:action="@{/usuario/salvar}" th:object="${user}" method="POST"> -->
-	            <form  th:action="${usuario.id == null} ?  @{/user/salvar/novo} : @{/user/editar}" th:object="${usuario}" method="POST">
-	               
-	                    <div class="form-group col-md-6">
-	                        <label for="nome">Nome</label>
-	                        <input type="text" class="form-control" id="nome"
-	                               autofocus="autofocus" th:field="*{nome}" required/>
-	                        <div class="invalid-feedback"></div>
-	                    </div>
-	                    
- 						
-	                    
-	                   <div class="form-group col-md-6">
-	                        <label for="email">E-Mail</label>
-	                        <input type="email" class="form-control" id="email" 
-	                               autofocus="autofocus" th:field="*{email}" required/>
-	                        <div class="invalid-feedback"></div>
-	                    </div>
-	                    <div class="form-group col-md-3">
-	                        <label for="senha">Senha</label> 
-	                        <input type="password" class="form-control" id="senha" 
-	                               autofocus="autofocus" th:field="*{senha}" required/>
-	                        <div class="invalid-feedback"></div>
-	                    </div>
-	                    
-	                    
-	                <input type="hidden" id="id" th:field="*{id}"/>
-	                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
-	            </form>
-                </div>
-                     
-	    </section>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<title>Cadastre-se</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="clínica médica com agendamento de consultas online" />
+<link rel="icon" th:href="@{/image/favicon.ico}" />
+<!-- Icons fontawesome -->
+<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style-login.css(v=${version})}" rel="stylesheet" />
+<script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
+</head>
+<body>	
+     <div th:replace="fragments/alert"></div> 
+	<form class="form-signin was-validated" method="POST" 
+	      th:action="@{/user/salvar}" th:object="${user}">	
+		<div class="text-center mb-4">
+			<img class="mb-4" th:src="@{/image/aviao.png}" alt=""
+				width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Sistema de Pagamento</h1>
+
+			<p class="font-weight-lighter">Crie seu cadastro aqui!</p>
+		</div>
+		
+		<div th:if="${#fields.hasAnyErrors()}">	
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<div th:each="error : ${#fields.detailedErrors()}">
+				  <i class="oi oi-warning"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>	
+		
+		 <div class="form-label-group">
+	         <input type="text" id="nome" class="form-control" placeholder="nome" 
+	               th:field="*{nome}" required/> <!--utofocus="autofocus"  --> 
+	      <label for="nome">Nome</label>
+	      <div class="invalid-feedback">
+	          Informe seu nome</div>     
+	      </div>
+		
+		<div class="form-label-group">
+			<input type="email" id="inputEmail" class="form-control" placeholder="e-mail" 
+				th:field="*{email}" required autofocus />
+			<label for="inputEmail">Email</label>
+			<div class="invalid-feedback">
+				Use seu email como login.
+			</div>
+		</div>
+
+		<div class="form-label-group">
+			<input type="password" id="inputPassword" class="form-control"
+				placeholder="Password" th:field="*{senha}" required /> 
+			<label for="inputPassword">Senha</label>
+			<div class="invalid-feedback">Digite uma senha.</div>	
+		</div>
+
+              <input type="hidden" id="id" th:field="*{id}"/>
+		<button class="btn btn-lg btn-info btn-block" type="submit">Confirmar</button>
+		<hr>
+		<nav class="nav nav-pills flex-column flex-sm-row">
+			<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}">
+				<i class="fas fa-home"></i>&nbsp;Login</a>
+		</nav>
+		<p class="mt-5 mb-3 text-muted text-center">Sistema de Pagamento 2020&copy; 2020</p>
+	</form>
 </body>
-</html>	
-
-
+</html>

@@ -14,19 +14,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-@Entity
-@Table(name = "cartao")
 public class Cartao implements Serializable {
 
 	private static final long serialVersionUID = 1L; 	
 	
-	@Id   
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id_cartao;
 	private String nome;
 	private String numero;
-	@Column(length = 3)
 	private String cvv;
 	
 	private int qtd_parcelas;
@@ -37,14 +30,9 @@ public class Cartao implements Serializable {
 	
 	private int ano;
 		
-	@ManyToOne
-	@JoinColumn(name = "id_compra")
-	private Pagamento compras;
-	
 	public Cartao(Long id_cartao, String nome, String numero, String cvv, int qtd_parcelas, double valor_parcelado, int mes,
 			int ano, Pagamento compras) {
 		super();
-		this.id_cartao = id_cartao;
 		this.nome = nome;
 		this.numero = numero;
 		this.cvv = cvv;
@@ -52,8 +40,6 @@ public class Cartao implements Serializable {
 		this.valor_parcelado = valor_parcelado;
 		this.mes = mes;
 		this.ano = ano;
-		this.compras = compras;
-		
 	}
 
 	public int getMes() {
@@ -74,14 +60,6 @@ public class Cartao implements Serializable {
 
 	public Cartao() {
 
-	}
-
-	public Long getId_Cartao() {
-		return id_cartao;
-	}
-
-	public void setId_Cartao(Long id_Cartao) {
-		this.id_cartao = id_Cartao;
 	}
 
 	public String getNome() {
@@ -108,14 +86,6 @@ public class Cartao implements Serializable {
 		this.cvv = cvv;
 	}
 
-	public Long getId_cartao() {
-		return id_cartao;
-	}
-
-	public void setId_cartao(Long id_cartao) {
-		this.id_cartao = id_cartao;
-	}
-
 	public int getQtd_parcelas() {
 		return qtd_parcelas;
 	}
@@ -132,21 +102,4 @@ public class Cartao implements Serializable {
 		this.valor_parcelado = valor_parcelado;
 	}
 
-	public Pagamento getCompras() {
-		return compras;
-	}
-
-	public void setCompras(Pagamento compras) {
-		this.compras = compras;
-	}
-
-	@Override
-	public String toString() {
-		return "Cartao [id_cartao=" + id_cartao + ", nome=" + nome + ", numero=" + numero + ", cvv=" + cvv
-				+ ", qtd_parcelas=" + qtd_parcelas + ", valor_parcelado=" + valor_parcelado 
-				+ ", mes=" + mes + ", ano=" + ano + ", compras=" + compras + "]";
-	}
-
-	
-		
 }

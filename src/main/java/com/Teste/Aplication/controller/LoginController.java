@@ -1,32 +1,51 @@
 package com.Teste.Aplication.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Teste.Aplication.service.UserService;
-
+import com.Teste.Aplication.model.User;
+import com.Teste.Aplication.util.RestTemplateUtil;
+import com.Teste.Aplication.util.SessionUtil;
 
 @Controller
-
 public class LoginController {
+	@Autowired
+	private SessionUtil<User> sessionUtil;
 
 	@GetMapping("/")
-	public String login() { 
+	public String login() {
 		return "login";
-	}	
+	}
 	
+	@PostMapping("/entrar")
+	public String entrar(@RequestParam("username") String username, @RequestParam("password") String senha) {
+		String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.add("email", username);
+		params.add("senha", senha);
+		ResponseEntity<User> responseEntity = 
+				(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+		if(responseEntity.getStatusCode().is2xxSuccessful()) {
+			sessionUtil.criarSession("user", responseEntity.getBody());
+			return "home";
+		} 
+		return "login";
+	}
+
 	@PostMapping("/home")
 	public String test() {
 		return "home";
 	}
-	
-	//login invalido
+
+	// login invalido
 	@GetMapping("/login-error")
 	public String loginError(ModelMap model) {
 		model.addAttribute("alerta", "erro");
@@ -34,6 +53,5 @@ public class LoginController {
 		model.addAttribute("texto", "Login ou senha incorretos, tente novamente!");
 		return "login";
 	}
-	
-	
+
 }

@@ -1,11 +1,11 @@
-<!--  <!DOCTYPE html>
+<!DOCTYPE html>
 <html layout:decorate="~{layout}">
 <head>
 <meta charset="UTF-8" />
 </head>
-<body onload="render()">
+<body th:data-objeto="${id}">
 
-	<section class="layout-content" layout:fragment="corpo" >
+	<section class="layout-content" layout:fragment="corpo">
 		<nav class="navbar navbar-expand-md bg-light">
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
@@ -21,8 +21,6 @@
 
 		<div class="container">
 
-
-
 			<div th:replace="fragments/alert"></div>
 
 			<div class="container">
@@ -32,23 +30,11 @@
 					</div>
 
 					<div class="card-body">
-					
-					<div th:replace="fragments/alert"></div>
+
+						<div th:replace="fragments/alert"></div>
 
 						<form th:action="@{/compras/salvar}" th:object="${compra}"
-							method="POST">
-
-							<div class="text-left col-md-8">
-								<p>Dados do Cliente</p>
-								<hr />
-								<div id="table-cliente">
-								</div>
-								<p>Dados da Passagem</p>
-								<hr />
-								<div id="table-passagem">
-								</div>
-							</div> 				
-														
+							method="POST"> 
 
 							<div class="form-group">
 								<div class="col-md-6">
@@ -57,11 +43,11 @@
 										onkeyup="keyNumber(this)" class="form-control"
 										name="quantidade" autofocus="autofocus" required>
 									<!-- th:field="*{quantidade}" -->
-								<!--  </div>
+								</div>
 								<div class="invalid-feedback"></div>
 							</div>
 
-                           <!--  <div class="form-group">
+							<!--  <div class="form-group">
 								<div class="col-md-6">
 									<small class="form-text text-muted">Data
 										</small> <input type="data" id="dataCompra"
@@ -71,59 +57,49 @@
 								</div>
 								<div class="invalid-feedback"></div>
 							</div>  -->
-                            
 
-
-							<!--  <div class="col-md-8">
-								<small class="form-text text-muted">Escolha o valor</small> <select
-									id="valor" onclick="calValue(this)" name="valor"
-									class="form-control">
-									<option value="0">0</option>
-									<option value="1000">1000</option>
-									<option value="2000">2000</option>
-									<option value="3000">3000</option>
-								</select>
+							<div class="col-md-8">
+								<input type="text" id="valor"
+									class="form-control" th:value="${valor}" name="quantidade"
+									autofocus="autofocus" required>
 							</div>
+
 							<br>
 
 							<div class="col-md-8" id="show"></div>
 
 							<div class="col-md-8">
 								<small class="form-text text-muted">Escolha Forma de
-									Pagamento</small> <select id="tipoPagamento"
-									 name="tipoPagamento"
+									Pagamento</small> <select id="tipoPagamento" name="tipoPagamento"
 									class="form-control">
 									<option value="BOLETO">Boleto</option>
 									<option value="CARTAO">Cartao</option>
-								</select>
-								
-								<br>
+								</select> <br>
 								<div>
-								<button type="submit" class="btn btn-primary btn-sm">Comprar</button>
-							</div>
-							<br>
+									<button type="submit" class="btn btn-primary btn-sm">Comprar</button>
+								</div>
+								<br>
 
 							</div>
 							<br>
-
 						</form>
 
-						</div>
-						<br>
-					
 					</div>
-					
-
+					<br>
 
 				</div>
 
 
+
 			</div>
-		
+
+
+		</div>
+
 
 
 
 		<div class="table-responsive"></div>
 	</section>
 </body>
-</html>-->
+</html>
