@@ -26,6 +26,8 @@ public class Pagamento implements Serializable {
 	private Status status;
 
 	public User usuario;
+	
+	private Long id;
 
 	public Pagamento() {
 		super();
@@ -107,5 +109,14 @@ public class Pagamento implements Serializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 
 }

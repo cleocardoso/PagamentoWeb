@@ -49,8 +49,8 @@ public class PagamentoController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "http://localhost:8082");
 		ResponseEntity<Pagamento> responseEntity =(ResponseEntity<Pagamento>)RestTemplateUtil
-				.get("http://localhost:8081/api/compras/findByToken/"+token, headers, Pagamento.class);
-		
+				.get("http://localhost:8081/api/compras/pagamento/"+token, headers, Pagamento.class);
+		//System.out.println(responseEntity.g);
 		//Aqui vamos  usar o resttemplate consumindo o metodo que retorna o pagamento pelo token da api/
 		Pagamento pagamento = responseEntity.getBody();
 		
@@ -88,7 +88,7 @@ public class PagamentoController {
 		if (tipoPagamento.equals(TipoPagamento.CARTAO)) {
 
 			// compraService.saveAndFlush(compra); // salva a compra para poder enviar o id
-			// attr.addAttribute("id", compra.getId()); // envia o id na requisição
+			attr.addAttribute("id", compra.getId()); // envia o id na requisição
 			attr.addAttribute("origem", this.origem);
 			return "redirect:/cartao/cartao";
 		}
