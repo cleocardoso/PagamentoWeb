@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,17 @@ import com.Teste.Aplication.model.Boleto;
 import com.Teste.Aplication.model.Pagamento;
 import com.Teste.Aplication.model.User;
 import com.Teste.Aplication.util.RestTemplateUtil;
+import com.Teste.Aplication.util.SessionUtil;
 
 @Controller
 @RequestMapping("/compras")
 public class PagamentoController {
 
 	private String origem;
-
+	
+	@Autowired
+	private SessionUtil<User> sessionUtil;
+	
 	@GetMapping("/comprar")
 	public String comprar(Pagamento compra) {
 		return "compra/pagamento";

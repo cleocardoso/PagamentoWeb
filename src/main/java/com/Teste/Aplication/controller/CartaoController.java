@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +19,21 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Teste.Aplication.Enuns.Status;
+import com.Teste.Aplication.Enuns.TipoPagamento;
 import com.Teste.Aplication.model.Cartao;
 import com.Teste.Aplication.model.Pagamento;
 import com.Teste.Aplication.model.User;
+import com.Teste.Aplication.util.RestTemplateUtil;
+import com.Teste.Aplication.util.SessionUtil;
 
 @Controller
 @RequestMapping("/cartao")
 public class CartaoController {
 
 	private Long id = null;
+	
+	@Autowired
+	private SessionUtil<User> sessionUtil;
 
 	@GetMapping("/cartao")
 	public String cartao(Cartao cartao, @RequestParam("id") String attr) {
@@ -51,40 +57,30 @@ public class CartaoController {
 		String valor[] = decimalFormat.format(pv / resultThree).split(",");
 		return Double.parseDouble(valor[0] + "." + valor[1]);
 	}
-
+	@SuppressWarnings({ "unchecked" })
 	@PostMapping("/salvarCartao")
-	public String salvarCartao(@Valid Cartao cartao, BindingResult result, Principal principal,
+	public String salvarCartao(@Valid Cartao cartao, BindingResult result,
 			RedirectAttributes attr) {
-
-		// System.out.println(cartao.getQtd_parcelas());
-		/*
-		 * Pagamento compra = compraService.getOne(id); // retorna o objeto do banco
-		 * para poder manipular System.out.println(cartao.getQtd_parcelas()); if (compra
-		 * != null) { // se for diferente de nulo, continua o fluxo abaixo User user =
-		 * userService.getEmail(principal.getName()); if (user != null) {
-		 * 
-		 * double total = calPMT(compra.getValor(), cartao.getQtd_parcelas(), "2%");
-		 * 
-		 * cartao.setValor_parcelado(total); // seta o valor das parcelas
-		 * 
-		 * System.out.println(user.getEmail()); cartaoService.salvarCartao(cartao); //
-		 * salva o cartão compra.setUsuario(user); cartao.setCompras(compra); //
-		 * compra.setQtd_parcelas(cartao); compra.setCartao(cartao); // seta o cartão na
-		 * compra compra.setStatus(Status.CONCLUÍDA);
-		 * compraService.saveAndFlush(compra); // atualiza a compra
-		 * attr.addFlashAttribute("success", "Compra realizada com sucesso");
-		 * System.out.println("valor das parcelas"); //
-		 * System.out.println(calPMT(compra.getValor(), cartao.getQtd_parcelas(), //
-		 * "2%")); cartao.setValor_parcelado(calPMT(compra.getValor(),
-		 * cartao.getQtd_parcelas(), "2%"));
-		 * 
-		 * } }
-		 */
-
-		 return "redirect:/cartao/detalhes";
-		//return "redirect:/cartao/detalhesCompraIdCartao/" + cartao.getId_Cartao();
+		User user = sessionUtil.getSession("user");
+		String url = "http://localhost:8081/api/compras/saveCompra";
+		
+		Pagamento pagamento = new Pagamento();
+		pagamento.setId(id);
+		pagamento.setTipoPagamento(TipoPagamento.CARTAO);
+		pagamento.setCartao(cartao); 
+		pagamento.setUsuario(user);
+		
+		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil.post(url, pagamento, Pagamento.class); 
+		 
+		if(responseEntity.getStatusCode().is2xxSuccessful()) {
+			Pagamento pagamento2 = responseEntity.getBody();
+			attr.addFlashAttribute("sucess", "Pagamento Realizado com Sucesso!");
+			return "redirect:/cartao/detalhesCompraIdCartao/" + pagamento2.getCartao().getId_Cartao();
+		}
+		attr.addFlashAttribute("fail", "Por favor tente novamente!");
+		return "redirect:/cartao/cartao";
 	}
-
+	
 	@GetMapping("/detalhesCompraIdCartao/{id_cartao}")
 	public ModelAndView detalhesCompraCartao(@PathVariable("id_cartao") Long id_cartao) {
 		ModelAndView modelAndView = new ModelAndView("compra/detalhesCompraCartao");

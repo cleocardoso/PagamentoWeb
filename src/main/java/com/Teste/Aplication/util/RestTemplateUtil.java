@@ -48,4 +48,12 @@ public class RestTemplateUtil {
 		// recebe a url, a class do retorno da api e os headers da requisição.
 		return restTemplate.getForEntity(url, class1, httpHeaders);
 	}
+	public static ResponseEntity<?> post(String url, Object object, Class<?> class1){
+		RestTemplate restTemplate = new RestTemplate();// instancia do RestTemplate
+
+		HttpEntity<?> request = new HttpEntity<>(object);
+		// O metodo postForEntity é responsavel por enviar a solicitação do tipo post
+		// recebe a url, o objeto HttpEntity e a class do retorno da api.
+		return restTemplate.postForEntity(url, request, class1);
+	}
 }

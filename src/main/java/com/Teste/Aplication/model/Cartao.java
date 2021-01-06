@@ -29,6 +29,8 @@ public class Cartao implements Serializable {
 	private int mes;
 	
 	private int ano;
+	
+	private Long id_Cartao;
 		
 	public Cartao(Long id_cartao, String nome, String numero, String cvv, int qtd_parcelas, double valor_parcelado, int mes,
 			int ano, Pagamento compras) {
@@ -101,5 +103,14 @@ public class Cartao implements Serializable {
 	public void setValor_parcelado(double valor_parcelado) {
 		this.valor_parcelado = valor_parcelado;
 	}
+
+	public Long getId_Cartao() {
+		return id_Cartao;
+	}
+
+	public void setId_Cartao(Long id_Cartao) {
+		this.id_Cartao = id_Cartao;
+	}
+	
 
 }
