@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 </head>
-<body th:data-objeto="${id}">
+<body>
 
 	<section class="layout-content" layout:fragment="corpo">
 		<nav class="navbar navbar-expand-md bg-light">
@@ -41,8 +41,7 @@
 									<small class="form-text text-muted">Informe a
 										Quantidade</small> <input type="text" id="quantidade"
 										onkeyup="keyNumber(this)" class="form-control"
-										name="quantidade" autofocus="autofocus" required>
-									<!-- th:field="*{quantidade}" -->
+										th:field="*{quantidade}" autofocus="autofocus" required>
 								</div>
 								<div class="invalid-feedback"></div>
 							</div>
@@ -60,7 +59,7 @@
 
 							<div class="col-md-8">
 								<input type="text" id="valor"
-									class="form-control" th:value="${valor}" name="quantidade"
+									class="form-control" th:value="${compra.valor}"
 									autofocus="autofocus" required>
 							</div>
 

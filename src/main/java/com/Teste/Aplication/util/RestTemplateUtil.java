@@ -42,4 +42,10 @@ public class RestTemplateUtil {
 		// recebe a url e a class do retorno da api.
 		return restTemplate.getForEntity(url, class1);
 	}
+	public static ResponseEntity<?> get(String url, HttpHeaders httpHeaders, Class<?> class1){
+		RestTemplate restTemplate = new RestTemplate();// instancia do RestTemplate
+		// O metodo getForEntity é responsavel por enviar a solicitação do tipo get
+		// recebe a url, a class do retorno da api e os headers da requisição.
+		return restTemplate.getForEntity(url, class1, httpHeaders);
+	}
 }
