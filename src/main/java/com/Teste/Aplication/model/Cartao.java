@@ -2,7 +2,6 @@ package com.Teste.Aplication.model;
 
 import java.io.Serializable;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,27 +12,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 public class Cartao implements Serializable {
 
-	private static final long serialVersionUID = 1L; 	
-	
+	private static final long serialVersionUID = 1L;
+	private Long id_cartao;
 	private String nome;
 	private String numero;
 	private String cvv;
-	
+
 	private int qtd_parcelas;
-	
+
 	private double valor_parcelado;
 
 	private int mes;
-	
+
 	private int ano;
-	
-	private Long id_Cartao;
-		
-	public Cartao(Long id_cartao, String nome, String numero, String cvv, int qtd_parcelas, double valor_parcelado, int mes,
-			int ano, Pagamento compras) {
+
+	public Cartao(Long id_cartao, String nome, String numero, String cvv, int qtd_parcelas, double valor_parcelado,
+			int mes, int ano, Pagamento compras) {
 		super();
 		this.nome = nome;
 		this.numero = numero;
@@ -104,13 +100,16 @@ public class Cartao implements Serializable {
 		this.valor_parcelado = valor_parcelado;
 	}
 
-	public Long getId_Cartao() {
-		return id_Cartao;
-	}
-
-	public void setId_Cartao(Long id_Cartao) {
-		this.id_Cartao = id_Cartao;
+	public Long getId_cartao() {
+		return id_cartao;
 	}
 	
+	public void setId_cartao(Long id_cartao) {
+		this.id_cartao = id_cartao;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

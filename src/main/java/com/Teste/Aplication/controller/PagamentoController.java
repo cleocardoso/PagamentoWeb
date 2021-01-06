@@ -32,12 +32,10 @@ import com.Teste.Aplication.util.SessionUtil;
 @Controller
 @RequestMapping("/compras")
 public class PagamentoController {
-
-	private String origem;
-	
 	@Autowired
 	private SessionUtil<User> sessionUtil;
-	
+	private String origem;
+
 	@GetMapping("/comprar")
 	public String comprar(Pagamento compra) {
 		return "compra/pagamento";
@@ -53,13 +51,14 @@ public class PagamentoController {
 	public ModelAndView test(@PathVariable("token") String token) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "http://localhost:8082");
-		ResponseEntity<Pagamento> responseEntity =(ResponseEntity<Pagamento>)RestTemplateUtil
+		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil
 				.get("http://localhost:8081/api/compras/pagamento/"+token, headers, Pagamento.class);
-		//System.out.println(responseEntity.g);
-		//Aqui vamos  usar o resttemplate consumindo o metodo que retorna o pagamento pelo token da api/
+		
+		/*Aqui vcs vão usar o resttemplate consumindo o metodo que retorna o pagamento pelo token da api*/
 		Pagamento pagamento = responseEntity.getBody();
 		
 		if(pagamento != null) {
+			sessionUtil.criarSession("user", pagamento.getUsuario());
 			return new ModelAndView("compra/pagamento")
 					.addObject("compra", pagamento) // quando usar o objeto pagamento descomente
 			;
@@ -70,6 +69,8 @@ public class PagamentoController {
 
 	@GetMapping("/detalhes")
 	public ModelAndView detalhes(Principal principal) {
+		/*Aqui vcs vão usar o resttemplate para consumir da api que retorne a lista de pagamento feito pelo usuario*/
+		// Long id_compra = userService.getEmail(principal.getName()).getId();
 		ModelAndView modelAndView = new ModelAndView("compra/detalhes");
 		// modelAndView.addObject("compras", compraService.findAllByIdUser(id_compra));
 		// System.out.println(id_compra);
@@ -88,13 +89,11 @@ public class PagamentoController {
 		 * compra.setDataCompra(data);
 		 */
 
-		compra.setValor(compra.getValor() * compra.getQuantidade());
-
 		if (tipoPagamento.equals(TipoPagamento.CARTAO)) {
-
 			// compraService.saveAndFlush(compra); // salva a compra para poder enviar o id
-			attr.addAttribute("id", compra.getId()); // envia o id na requisição
-			attr.addAttribute("origem", this.origem);
+			attr.addAttribute("id", compra.getIdCompra()); // envia o id na requisição
+			attr.addAttribute("quantidade", compra.getQuantidade());
+			attr.addAttribute("valor", compra.getValor());
 			return "redirect:/cartao/cartao";
 		}
 
@@ -109,4 +108,12 @@ public class PagamentoController {
 		attr.addFlashAttribute("success", "Operação realizada com sucesso!");
 		return "/home";
 
-	}}
+	}
+
+	// parcelamento com juros, compra de R$ 1.000, parcelada em 10x, com juros de 2%
+	// ao mês,
+	// por exemplo. Pagará em cada parcela, R$ 111,33, resultando no total de R$
+	// 1.113,27.
+	// O valor de R$ 113,27, foi o total que você pagou de juros só por parcelar a
+	// compra.
+}

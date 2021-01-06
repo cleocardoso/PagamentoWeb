@@ -1,12 +1,9 @@
 package com.Teste.Aplication.controller;
 
-import java.math.RoundingMode;
-import java.security.Principal;
-import java.text.DecimalFormat;
+import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,73 +15,61 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Teste.Aplication.Enuns.Status;
 import com.Teste.Aplication.Enuns.TipoPagamento;
 import com.Teste.Aplication.model.Cartao;
 import com.Teste.Aplication.model.Pagamento;
-import com.Teste.Aplication.model.User;
 import com.Teste.Aplication.util.RestTemplateUtil;
-import com.Teste.Aplication.util.SessionUtil;
 
 @Controller
 @RequestMapping("/cartao")
 public class CartaoController {
 
 	private Long id = null;
-	
-	@Autowired
-	private SessionUtil<User> sessionUtil;
+	private Integer quantidade = null;
+	private Double valor;
 
 	@GetMapping("/cartao")
-	public String cartao(Cartao cartao, @RequestParam("id") String attr) {
+	public String cartao(Cartao cartao, @RequestParam("id") String attr,
+			@RequestParam("quantidade") Integer quantidade, @RequestParam("valor") Double valor) {
 		id = Long.parseLong(attr); // recebe o id da compra
-		//Pagamento compra = compraService.getOne(id);
-		// compra.setValor(compra.getValor());
+		this.quantidade = quantidade; // recebe a quantidade do pagamento
+		this.valor = valor; // recebe o valor do pagamento
 		return "compra/cartao";
 	}
 
-	private double calPMT(double pv, int n, String i) {
-
-		// System.out.println( decimalFormat.format(valor) );
-		String porcent[] = i.split("%");
-		double taxa = Double.parseDouble(porcent[0]) / 100;
-		double resultOne = (Math.pow((1 + taxa), n) - 1);
-		double resultTwo = ((Math.pow(1 + taxa, n) * taxa));
-		double resultThree = resultOne / resultTwo;
-		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-		decimalFormat.setRoundingMode(RoundingMode.DOWN);
-
-		String valor[] = decimalFormat.format(pv / resultThree).split(",");
-		return Double.parseDouble(valor[0] + "." + valor[1]);
-	}
 	@SuppressWarnings({ "unchecked" })
 	@PostMapping("/salvarCartao")
-	public String salvarCartao(@Valid Cartao cartao, BindingResult result,
-			RedirectAttributes attr) {
-		User user = sessionUtil.getSession("user");
+	public String salvarCartao(@Valid Cartao cartao, BindingResult result, RedirectAttributes attr) {
+		Pagamento pagamento = (Pagamento) RestTemplateUtil
+				.getEntity("http://localhost:8081/api/compras/detalhesCompra/" + id, Pagamento.class);
 		String url = "http://localhost:8081/api/compras/saveCompra";
-		
-		Pagamento pagamento = new Pagamento();
-		pagamento.setId(id);
 		pagamento.setTipoPagamento(TipoPagamento.CARTAO);
-		pagamento.setCartao(cartao); 
-		pagamento.setUsuario(user);
+		pagamento.setQuantidade(quantidade);
+		pagamento.setValor(valor);
+		pagamento.setCartao(cartao);
 		
-		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil.post(url, pagamento, Pagamento.class); 
-		 
-		if(responseEntity.getStatusCode().is2xxSuccessful()) {
-			Pagamento pagamento2 = responseEntity.getBody();
-			attr.addFlashAttribute("sucess", "Pagamento Realizado com Sucesso!");
-			return "redirect:/cartao/detalhesCompraIdCartao/" + pagamento2.getCartao().getId_Cartao();
+		try {
+			ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil.post(url, pagamento,
+					Pagamento.class);
+
+			if (responseEntity.getStatusCode().is2xxSuccessful()) {
+				attr.addFlashAttribute("success", "Pagamento Realizado com Sucesso!");
+				return "redirect:/cartao/detalhesCompraIdCartao/" + responseEntity.getBody().getCartao().getId_cartao();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		attr.addFlashAttribute("fail", "Por favor tente novamente!");
 		return "redirect:/cartao/cartao";
 	}
-	
+
 	@GetMapping("/detalhesCompraIdCartao/{id_cartao}")
 	public ModelAndView detalhesCompraCartao(@PathVariable("id_cartao") Long id_cartao) {
+		Pagamento [] pagamentos = (Pagamento[]) RestTemplateUtil.getEntity("http://localhost:8081/api/compras/detalhesCompraIdCartao/"+id_cartao, Pagamento[].class);
 		ModelAndView modelAndView = new ModelAndView("compra/detalhesCompraCartao");
-		//modelAndView.addObject("compras", compraService.findByIdCartao(id_cartao));
+		modelAndView.addObject("compras", pagamentos);
+		System.out.println(pagamentos[0].getOrigin());
+		modelAndView.addObject("origin", pagamentos[0].getOrigin());
 		return modelAndView;
 	}
 
