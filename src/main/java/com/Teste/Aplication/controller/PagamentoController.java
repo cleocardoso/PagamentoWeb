@@ -67,15 +67,14 @@ public class PagamentoController {
 				.addObject("fail", "Token expirado!");
 	}
 
-	@GetMapping("/detalhes")
-	public ModelAndView detalhes(Principal principal) {
-		/*Aqui vcs vão usar o resttemplate para consumir da api que retorne a lista de pagamento feito pelo usuario*/
-		// Long id_compra = userService.getEmail(principal.getName()).getId();
-		ModelAndView modelAndView = new ModelAndView("compra/detalhes");
-		// modelAndView.addObject("compras", compraService.findAllByIdUser(id_compra));
-		// System.out.println(id_compra);
-		return modelAndView;
-	}
+	 @GetMapping("/detalhes")
+		public ModelAndView detalhes() {
+			User user = sessionUtil.getSession("user");
+			Pagamento [] pagamentos = (Pagamento[]) RestTemplateUtil.getEntity("http://localhost:8081/api/compras/detalhes/"+user.getEmail(), Pagamento[].class);
+			ModelAndView modelAndView = new ModelAndView("compra/detalhes");
+			modelAndView.addObject("compras", pagamentos);
+			return modelAndView;
+		}
 
 	@PostMapping("/salvar")
 	public String salvar(@Valid Pagamento compra, User user, Boleto boleto, RedirectAttributes attr,
