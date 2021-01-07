@@ -68,4 +68,5 @@ public class RestTemplateUtil {
 		// recebe a url, o objeto HttpEntity e a class do retorno da api.
 		return restTemplate.postForEntity(url, request, class1);
 	}
+	
 }

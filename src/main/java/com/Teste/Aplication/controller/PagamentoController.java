@@ -72,6 +72,7 @@ public class PagamentoController {
 		User user = sessionUtil.getSession("user");
 
 		if (user != null) {
+			try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Authorization", "Bearer " + user.getToken());
 			
@@ -81,6 +82,9 @@ public class PagamentoController {
 			ModelAndView modelAndView = new ModelAndView("compra/detalhes");
 			modelAndView.addObject("compras", pagamentos);
 			return modelAndView;
+			}catch(Exception e) {
+				return new ModelAndView("compra/detalhes").addObject("fail", "Não existe nenhum pagamento! ");
+			}
 		}
 		return new ModelAndView("login").addObject("fail", "Sessão Expirada!");
 	}

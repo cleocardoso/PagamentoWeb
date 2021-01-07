@@ -1,4 +1,6 @@
 package com.Teste.Aplication.controller;
+import java.util.Random;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +18,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.Teste.Aplication.model.Email;
 import com.Teste.Aplication.model.User;
 import com.Teste.Aplication.util.RestTemplateUtil;
 import com.Teste.Aplication.util.SessionUtil;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	
 	
 	@GetMapping("/cadastrar")
 	public String cadastrar(User user) {
@@ -63,7 +69,7 @@ public class UserController {
 	@GetMapping("/detalhes")
 	public ModelAndView detalhePorId() {
 		User user = sessionUtil.getSession("user");
-		
+	
 		if(user != null) {
 			ModelAndView mv = new ModelAndView("user/detalhes");
 			mv.addObject("usuario", user);
@@ -117,21 +123,35 @@ public class UserController {
 
 	@PostMapping("/trocarSenha")
 	public ModelAndView trocarSenha(@RequestParam("email") String email) {
+		//String fooResourceUrl = "http://localhost:8081/api/usuarios/trocarSenha";
+		//User user = sessionUtil.getSession("user");
+		
+		//MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		//params.add("email", email);
+		
+		//ResponseEntity<User> responseEntity = 
+			//	(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+		
 		// comentar na video chamada
-		/*
-		 * User user2 = service.getEmail(email); ModelAndView view = new
-		 * ModelAndView("login"); if (user2 == null) {
-		 * 
-		 * view.addObject("error", "Email não está cadastrado no sistema!"); } else {
-		 * Random r = new Random(); String novaSenhaGerada =
-		 * String.valueOf(Math.abs(r.nextInt())); System.out.println(novaSenhaGerada);
-		 * // user2.setSenha(novaSenhaGerada); user2.setSenha(new
-		 * BCryptPasswordEncoder().encode(novaSenhaGerada)); service.salvar(user2);
-		 * Email email2 = new Email(); email2.setTo(user2.getEmail());
-		 * sendEmail.sendNovaSenhaEmail(email2, novaSenhaGerada);
-		 * view.addObject("mensagem", "Nova senha gerada!!!"); }
-		 */
-		//return view;
+		
+		/*User user2 = service.getEmail(email);
+		ModelAndView view = new ModelAndView("login");
+		if(user2 == null) {
+			
+				view.addObject("error", "Email não está cadastrado no sistema!");
+		}else {
+			Random r = new Random();
+			String novaSenhaGerada = String.valueOf(Math.abs(r.nextInt()));
+			System.out.println(novaSenhaGerada);
+			//user2.setSenha(novaSenhaGerada);			
+			user2.setSenha(new BCryptPasswordEncoder().encode(novaSenhaGerada));			
+			service.salvar(user2);
+			Email email2 = new Email();
+			email2.setTo(user2.getEmail());
+			sendEmail.sendNovaSenhaEmail(email2, novaSenhaGerada);
+			view.addObject("mensagem", "Nova senha gerada!!!");
+		}
+		return view;*/
 		return null;
 	}
 

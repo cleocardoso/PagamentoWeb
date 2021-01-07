@@ -10,6 +10,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Teste.Aplication.model.User;
 import com.Teste.Aplication.util.RestTemplateUtil;
@@ -26,17 +28,26 @@ public class LoginController {
 	}
 	
 	@PostMapping("/entrar")
-	public String entrar(@RequestParam("username") String username, @RequestParam("password") String senha) {
+	public String entrar(@RequestParam("username") String username, @RequestParam("password") String senha,RedirectAttributes attrs) {
 		String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
+		try {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("email", username);
 		params.add("senha", senha);
 		ResponseEntity<User> responseEntity = 
 				(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+		
 		if(responseEntity.getStatusCode().is2xxSuccessful()) {
 			sessionUtil.criarSession("user", responseEntity.getBody());
 			return "home";
-		} 
+		}
+		
+		}catch(Exception e) {
+			attrs.addAttribute("fail", "Usuário Inválido!");	
+			return "login";
+			
+		}
+		
 		return "login";
 	}
 
