@@ -1,18 +1,13 @@
 package com.Teste.Aplication.controller;
 
-import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,47 +29,61 @@ import com.Teste.Aplication.util.SessionUtil;
 public class PagamentoController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
-	private String origem;
 
 	@GetMapping("/comprar")
 	public String comprar(Pagamento compra) {
 		return "compra/pagamento";
 	}
-	
+
 	@PostMapping("/test")
-	public ModelAndView postTest(@RequestParam("id") Long id, @RequestParam("valor") Double valor, @RequestParam("data") String data, @RequestHeader(required = true, value = "Origin") String origin) {
-		return new ModelAndView("compra/pagamento").addObject("id", id)
-				.addObject("valor", valor);
+	public ModelAndView postTest(@RequestParam("id") Long id, @RequestParam("valor") Double valor,
+			@RequestParam("data") String data, @RequestHeader(required = true, value = "Origin") String origin) {
+		return new ModelAndView("compra/pagamento").addObject("id", id).addObject("valor", valor);
 	}
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("/comprar/{token}")
 	public ModelAndView test(@PathVariable("token") String token) {
+		User user = sessionUtil.getSession("user");
+		if (user == null) {
+			user = (User) RestTemplateUtil.getEntity("http://localhost:8081/api/usuarios/tokenPagamento/" + token,
+					User.class);
+		}
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "http://localhost:8082");
+		headers.add("Authorization", "Bearer " + user.getToken());
 		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil
-				.get("http://localhost:8081/api/compras/pagamento/"+token, headers, Pagamento.class);
-		
-		/*Aqui vcs vão usar o resttemplate consumindo o metodo que retorna o pagamento pelo token da api*/
+				.get("http://localhost:8081/api/compras/pagamento/" + token, headers, Pagamento.class);
+
 		Pagamento pagamento = responseEntity.getBody();
-		
-		if(pagamento != null) {
+
+		if (pagamento != null) {
 			sessionUtil.criarSession("user", pagamento.getUsuario());
-			return new ModelAndView("compra/pagamento")
-					.addObject("compra", pagamento) // quando usar o objeto pagamento descomente
+			return new ModelAndView("compra/pagamento").addObject("compra", pagamento) // quando usar o objeto pagamento
+																						// descomente
 			;
 		}
-		return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento())
-				.addObject("fail", "Token expirado!");
+		return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
+				"Token expirado!");
 	}
 
-	 @GetMapping("/detalhes")
-		public ModelAndView detalhes() {
-			User user = sessionUtil.getSession("user");
-			Pagamento [] pagamentos = (Pagamento[]) RestTemplateUtil.getEntity("http://localhost:8081/api/compras/detalhes/"+user.getEmail(), Pagamento[].class);
+	@GetMapping("/detalhes")
+	public ModelAndView detalhes() {
+		User user = sessionUtil.getSession("user");
+
+		if (user != null) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Authorization", "Bearer " + user.getToken());
+			
+			Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
+					.getEntity("http://localhost:8081/api/compras/detalhes/" + user.getEmail(), headers, Pagamento[].class);
+			
 			ModelAndView modelAndView = new ModelAndView("compra/detalhes");
 			modelAndView.addObject("compras", pagamentos);
 			return modelAndView;
 		}
+		return new ModelAndView("login").addObject("fail", "Sessão Expirada!");
+	}
 
 	@PostMapping("/salvar")
 	public String salvar(@Valid Pagamento compra, User user, Boleto boleto, RedirectAttributes attr,
@@ -82,26 +91,17 @@ public class PagamentoController {
 
 		compra.setDataCompra(new Date());
 
-		/*
-		 * Date data = new Date(); SimpleDateFormat formato = new
-		 * SimpleDateFormat("dd/MM/yyyy"); String dataCompra = formato.format(data);
-		 * compra.setDataCompra(data);
-		 */
-
 		if (tipoPagamento.equals(TipoPagamento.CARTAO)) {
-			// compraService.saveAndFlush(compra); // salva a compra para poder enviar o id
 			attr.addAttribute("id", compra.getIdCompra()); // envia o id na requisição
-			attr.addAttribute("quantidade", compra.getQuantidade());
-			attr.addAttribute("valor", compra.getValor());
+			attr.addAttribute("quantidade", compra.getQuantidade()); // envia a quantidade na requisição
+			attr.addAttribute("valor", compra.getValor()); // envia o valor na requisição
 			return "redirect:/cartao/cartao";
 		}
 
 		else if (tipoPagamento.equals(TipoPagamento.BOLETO)) {
-
-			/// compraService.saveAndFlush(compra);
-			attr.addAttribute("id", compra.getIdCompra());
-			attr.addAttribute("valor",compra.getValor());
-			//attr.addAttribute("origem", this.origem);
+			attr.addAttribute("id", compra.getIdCompra()); // envia o id na requisição
+			attr.addAttribute("quantidade", compra.getQuantidade()); // envia a quantidade na requisição
+			attr.addAttribute("valor", compra.getValor()); // envia o valor na requisição
 			return "redirect:/boleto/boleto";
 		}
 
