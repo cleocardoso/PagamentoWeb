@@ -100,8 +100,9 @@ public class PagamentoController {
 		else if (tipoPagamento.equals(TipoPagamento.BOLETO)) {
 
 			/// compraService.saveAndFlush(compra);
-			// attr.addAttribute("id", compra.getId());
-			attr.addAttribute("origem", this.origem);
+			attr.addAttribute("id", compra.getIdCompra());
+			attr.addAttribute("valor",compra.getValor());
+			//attr.addAttribute("origem", this.origem);
 			return "redirect:/boleto/boleto";
 		}
 
