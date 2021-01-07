@@ -13,12 +13,13 @@
 			</div>
 			
 			
-		 <!--<nav class="navbar-nav ml-auto" >
+		 <nav class="navbar-nav ml-auto" >
 		    <a class="nav-link" href="/">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
-        </nav> -->
+        </nav> 
        
-       <form th:action="@{/logout}" sec:authorize="isAuthenticated()" method="post"  class="form-inline mt-2 mt-md-0">
+    
+		<!--  <form th:action="@{/login}" sec:authorize="isAuthenticated()" method="post"  class="form-inline mt-2 mt-md-0">
 			<div class="btn-group mb-2 mr-sm-2">
 				 <button type="button" class="btn btn-light">
 					<i class="fas fa-user"></i> <span class=""sec:authentication="name">Bob</span>
@@ -28,11 +29,12 @@
 				</button>
 						<div class="dropdown-menu">
 							<button type="submit" class="dropdown-item">Sair</button>
+							
 						</div>
 					</div>
 	 </form>
 			
-		</nav>
+		</nav>-->
 		
 		
 	</header>

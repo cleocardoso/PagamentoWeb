@@ -29,8 +29,7 @@ import com.Teste.Aplication.util.SessionUtil;
 public class UserController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
-	
-	
+
 	
 	@GetMapping("/cadastrar")
 	public String cadastrar(User user) {
@@ -121,20 +120,20 @@ public class UserController {
 		return "user/editarSenha";
 	}
 
-	@PostMapping("/trocarSenha")
+	/*@PostMapping("/trocarSenha")
 	public ModelAndView trocarSenha(@RequestParam("email") String email) {
-		//String fooResourceUrl = "http://localhost:8081/api/usuarios/trocarSenha";
+		String fooResourceUrl = "http://localhost:8081/api/usuarios/trocarSenha";
 		//User user = sessionUtil.getSession("user");
 		
-		//MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-		//params.add("email", email);
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.add("email", email);
 		
-		//ResponseEntity<User> responseEntity = 
-			//	(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+		ResponseEntity<User> responseEntity = 
+		(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
 		
-		// comentar na video chamada
 		
-		/*User user2 = service.getEmail(email);
+		
+		User user2 = service.getEmail(email);
 		ModelAndView view = new ModelAndView("login");
 		if(user2 == null) {
 			
@@ -143,7 +142,7 @@ public class UserController {
 			Random r = new Random();
 			String novaSenhaGerada = String.valueOf(Math.abs(r.nextInt()));
 			System.out.println(novaSenhaGerada);
-			//user2.setSenha(novaSenhaGerada);			
+			user2.setSenha(novaSenhaGerada);			
 			user2.setSenha(new BCryptPasswordEncoder().encode(novaSenhaGerada));			
 			service.salvar(user2);
 			Email email2 = new Email();
@@ -151,8 +150,30 @@ public class UserController {
 			sendEmail.sendNovaSenhaEmail(email2, novaSenhaGerada);
 			view.addObject("mensagem", "Nova senha gerada!!!");
 		}
-		return view;*/
-		return null;
+		return view;
+		//return null;
+	}*/
+	@PostMapping("/trocarSenha")
+	public String entrar(@RequestParam("email") String email,RedirectAttributes attrs) {
+		String fooResourceUrl = "http://localhost:8080/api/usuarios/trocarSenha";
+		try {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.add("email", email);
+		ResponseEntity<User> responseEntity = 
+				(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+		
+		if(responseEntity.getStatusCode().is2xxSuccessful()) {
+			attrs.addAttribute("success","Enviando o email para alterar a senha");
+			return "login";
+		}
+		
+		}catch(Exception e) {
+			attrs.addAttribute("fail", "Usuário Inválido!");	
+			return "login";
+			
+		}
+		
+		return "login";
 	}
 
 }

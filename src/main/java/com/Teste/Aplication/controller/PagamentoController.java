@@ -44,6 +44,7 @@ public class PagamentoController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/comprar/{token}")
 	public ModelAndView test(@PathVariable("token") String token) {
+		try {
 		User user = sessionUtil.getSession("user");
 		if (user == null) {
 			user = (User) RestTemplateUtil.getEntity("http://localhost:8081/api/usuarios/tokenPagamento/" + token,
@@ -59,9 +60,11 @@ public class PagamentoController {
 
 		if (pagamento != null) {
 			sessionUtil.criarSession("user", pagamento.getUsuario());
-			return new ModelAndView("compra/pagamento").addObject("compra", pagamento) // quando usar o objeto pagamento
-																						// descomente
-			;
+			return new ModelAndView("compra/pagamento").addObject("compra", pagamento);
+		}
+		}catch(Exception e) {
+			return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
+					"Token expirado!");
 		}
 		return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
 				"Token expirado!");
