@@ -29,7 +29,8 @@ public class LoginController {
 	
 	@PostMapping("/entrar")
 	public String entrar(@RequestParam("username") String username, @RequestParam("password") String senha,RedirectAttributes attrs) {
-		String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
+		//String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
+		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/";
 		try {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("email", username);
