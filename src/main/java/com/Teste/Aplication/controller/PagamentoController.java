@@ -67,7 +67,7 @@ public class PagamentoController {
 					"Token expirado!");
 		}
 		return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
-				"Token expirado!");
+				"Token expiradoo!");
 	}
 
 	@GetMapping("/detalhes")
