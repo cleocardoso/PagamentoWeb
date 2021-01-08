@@ -44,12 +44,12 @@ public class LoginController {
 		}
 		
 		}catch(Exception e) {
-			attrs.addAttribute("fail", "Usuário Inválido!");	
-			return new ModelAndView("login");
+			//attrs.addAttribute("fail", "Usuário Inválido!");	
+			return new ModelAndView("login").addObject("fail","Usuário Inválido!");
 			
 		}
 		
-		return new ModelAndView("login");
+		return new ModelAndView("login").addObject("fail","Usuário Inválido!");
 	}
 
 	@PostMapping("/home")
