@@ -42,7 +42,7 @@ public class UserController {
 			return new ModelAndView("user/cadastro");
 		}
 		ModelAndView view = new ModelAndView("login");
-		String fooResourceUrl = "http://localhost:8081/api/usuarios/save";
+		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/save";
 		try {
 			
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -91,7 +91,7 @@ public class UserController {
 
 	@PostMapping("/editar")
 	public String editar(User user, RedirectAttributes attr) {
-		String fooResourceUrl = "http://localhost:8081/api/usuarios/updateUser/"+user.getId();
+		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/updateUser/"+user.getId();
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("nome", user.getNome());
 		params.add("email", user.getEmail());
@@ -155,7 +155,7 @@ public class UserController {
 	}*/
 	@PostMapping("/trocarSenha")
 	public String entrar(@RequestParam("email") String email,RedirectAttributes attrs) {
-		String fooResourceUrl = "http://localhost:8080/api/usuarios/trocarSenha";
+		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/trocarSenha";
 		try {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("email", email);
