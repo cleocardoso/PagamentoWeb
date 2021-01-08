@@ -26,9 +26,9 @@ public class LoginController {
 	public String login() {
 		return "login";
 	}
-	
+	@SuppressWarnings("unchecked")
 	@PostMapping("/entrar")
-	public String entrar(@RequestParam("username") String username, @RequestParam("password") String senha,RedirectAttributes attrs) {
+	public ModelAndView entrar(@RequestParam("username") String username, @RequestParam("password") String senha,RedirectAttributes attrs) {
 		//String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
 		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/login";
 		try {
@@ -40,16 +40,16 @@ public class LoginController {
 		
 		if(responseEntity.getStatusCode().is2xxSuccessful()) {
 			sessionUtil.criarSession("user", responseEntity.getBody());
-			return "home";
+			return new ModelAndView("home");
 		}
 		
 		}catch(Exception e) {
 			attrs.addAttribute("fail", "Usuário Inválido!");	
-			return "login";
+			return new ModelAndView("login");
 			
 		}
 		
-		return "login";
+		return new ModelAndView("login");
 	}
 
 	@PostMapping("/home")
