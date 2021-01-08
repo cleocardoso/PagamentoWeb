@@ -44,10 +44,10 @@ public class BoletoController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Authorization", "Bearer " + user.getToken());
 
-			String url = "http://localhost:8081/api/compras/saveCompra";
+			String url = "https://projeto-pag-api.herokuapp.com/api/compras/saveCompra";
 
 			Pagamento pagamento = (Pagamento) RestTemplateUtil
-					.getEntity("http://localhost:8081/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
+					.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
 
 			sessionUtil.criarSession("user", pagamento.getUsuario());
 			
@@ -79,7 +79,7 @@ public class BoletoController {
 		headers.add("Authorization", "Bearer " + sessionUtil.getSession("user").getToken());
 		
 		Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
-				.getEntity("http://localhost:8081/api/compras/detalhesCompraIdBoleto/" + id_boleto, headers, Pagamento[].class);
+				.getEntity("https://projeto-pag-api.herokuapp.com/compras/detalhesCompraIdBoleto/" + id_boleto, headers, Pagamento[].class);
 		ModelAndView modelAndView = new ModelAndView("compra/boleto");
 		modelAndView.addObject("compras", pagamentos);
 		modelAndView.addObject("origin", pagamentos[0].getOrigin());
