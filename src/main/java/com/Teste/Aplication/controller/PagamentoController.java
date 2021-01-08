@@ -54,7 +54,7 @@ public class PagamentoController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + user.getToken());
 		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil
-				.get("http://localhost:8081/api/compras/pagamento/" + token, headers, Pagamento.class);
+				.get("https://projeto-pag-api.herokuapp.com/api/compras/pagamento/" + token, headers, Pagamento.class);
 
 		Pagamento pagamento = responseEntity.getBody();
 
