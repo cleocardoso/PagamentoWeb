@@ -47,7 +47,7 @@ public class PagamentoController {
 		try {
 		User user = sessionUtil.getSession("user");
 		if (user == null) {
-			user = (User) RestTemplateUtil.getEntity("http://localhost:8081/api/usuarios/tokenPagamento/" + token,
+			user = (User) RestTemplateUtil.getEntity("https://projeto-pag-api.herokuapp.com/api/usuarios/tokenPagamento/" + token,
 					User.class);
 		}
 
@@ -80,7 +80,7 @@ public class PagamentoController {
 			headers.add("Authorization", "Bearer " + user.getToken());
 			
 			Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
-					.getEntity("http://localhost:8081/api/compras/detalhes/" + user.getEmail(), headers, Pagamento[].class);
+					.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhes/" + user.getEmail(), headers, Pagamento[].class);
 			
 			ModelAndView modelAndView = new ModelAndView("compra/detalhes");
 			modelAndView.addObject("compras", pagamentos);
@@ -117,10 +117,5 @@ public class PagamentoController {
 
 	}
 
-	// parcelamento com juros, compra de R$ 1.000, parcelada em 10x, com juros de 2%
-	// ao mês,
-	// por exemplo. Pagará em cada parcela, R$ 111,33, resultando no total de R$
-	// 1.113,27.
-	// O valor de R$ 113,27, foi o total que você pagou de juros só por parcelar a
-	// compra.
+	
 }
