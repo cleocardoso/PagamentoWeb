@@ -81,6 +81,22 @@
             <h6>Cimara Oliveira</h6>
             <h6>cimaraoliveira@hotemail.com</h6>
         </div>
+        
+        <tbody>
+
+					<tr th:each="compra : ${compras}">
+						<td th:text="${compra.usuario.nome}"></td>
+						<td th:text="${compra.quantidade}"></td>
+						<td th:text="${compra.valor}"></td>
+						<td th:text="${compra.dataCompra}"></td>
+						<td th:text="${compra.boleto.dataVencimento}"></td>
+						<td th:text="${compra.boleto.numeroBoleto}"></td>
+						<td th:text="${compra.usuario.email}"></td>
+
+					</tr>
+
+
+		</tbody>
         <div style="clear: both"></div>
 			<div class="pl-2 p-2">
 				<a th:href="${origin}" class="btn btn-success">Voltar</a>

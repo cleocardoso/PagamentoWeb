@@ -81,7 +81,7 @@ public class BoletoController {
 		Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
 				.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompraIdBoleto/" + id_boleto, headers, Pagamento[].class);
 		ModelAndView modelAndView = new ModelAndView("compra/boleto");
-		modelAndView.addObject("compras", pagamentos);
+		modelAndView.addObject("compra", pagamentos[0]);
 		modelAndView.addObject("origin", pagamentos[0].getOrigin());
 		return modelAndView;
 	}
