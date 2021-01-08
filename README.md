@@ -29,16 +29,30 @@ Login com a requisição POST
 
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/LOGINn(1).jpeg)
 
+Se os dados forem passados corretamente retornará ao status 200.
+
+Se os dados forem passados incorretos retornará ao status 404.
+
 Dados passados para realizar a compra com a requisição POST.
+
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/DADOS.jpeg)
 
+
 Passando Authenticação e origem no Headers para gerar o link de acesso a tela Compra.
+
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/GERARLINK.jpeg)
+
+Se os dados forem passados corretamente retornará ao status 200.
+
+Se os dados forem passados incorretos retornará ao status 404.
 
 
 Tela de compra que o usuário irá acessar através do link após enviar os dados necessários e fazer o consumo dos serviços. Informando a quantidade de itens escohidos.
 
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/Compra.png)
+
+
+
 
 
 **Caminhos da api Passados no Postman:**
