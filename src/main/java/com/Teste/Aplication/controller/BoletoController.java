@@ -47,7 +47,7 @@ public class BoletoController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Authorization", "Bearer " + user.getToken());
 
-			String url = "https://projeto-pag-api.herokuapp.com/api/compras/saveCompra";
+			String url = "/api/compras/saveCompra";
 
 			Pagamento pagamento = (Pagamento) restTemplateUtil.getEntity("/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
 
