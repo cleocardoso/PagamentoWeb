@@ -63,10 +63,10 @@ public class PagamentoController {
 			return new ModelAndView("compra/pagamento").addObject("compra", pagamento);
 		}
 		}catch(Exception e) {
-			return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
+			return new ModelAndView("/home").addObject("compra", new Pagamento()).addObject("fail",
 					"Token expirado!");
 		}
-		return new ModelAndView("compra/pagamento").addObject("compra", new Pagamento()).addObject("fail",
+		return new ModelAndView("/home").addObject("compra", new Pagamento()).addObject("fail",
 				"Token expiradoo!");
 	}
 
