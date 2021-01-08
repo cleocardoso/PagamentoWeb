@@ -31,6 +31,9 @@ public class CartaoController {
 	private Double valor;
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	@Autowired
+	private RestTemplateUtil  restTemplateUtil;
 
 	@GetMapping("/cartao")
 	public String cartao(Cartao cartao, @RequestParam("id") String attr, @RequestParam("quantidade") Integer quantidade,
@@ -47,19 +50,19 @@ public class CartaoController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + sessionUtil.getSession("user").getToken());
 		
-		Pagamento pagamento = (Pagamento) RestTemplateUtil
-				.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
+		Pagamento pagamento = (Pagamento) restTemplateUtil
+				.getEntity("/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
 
 		sessionUtil.criarSession("user", pagamento.getUsuario());
 
-		String url = "https://projeto-pag-api.herokuapp.com/api/compras/saveCompra";
+		String url = "/api/compras/saveCompra";
 		pagamento.setTipoPagamento(TipoPagamento.CARTAO);
 		pagamento.setQuantidade(quantidade);
 		pagamento.setValor(valor);
 		pagamento.setCartao(cartao);
 
 		try {
-			ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil.post(url, headers,
+			ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) restTemplateUtil.post(url, headers,
 					pagamento, Pagamento.class);
 
 			if (responseEntity.getStatusCode().is2xxSuccessful()) {
@@ -77,8 +80,8 @@ public class CartaoController {
 	public ModelAndView detalhesCompraCartao(@PathVariable("id_cartao") Long id_cartao) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + sessionUtil.getSession("user").getToken());
-		Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
-				.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompraIdCartao/" + id_cartao, headers, Pagamento[].class);
+		Pagamento[] pagamentos = (Pagamento[]) restTemplateUtil
+				.getEntity("/api/compras/detalhesCompraIdCartao/" + id_cartao, headers, Pagamento[].class);
 		ModelAndView modelAndView = new ModelAndView("compra/detalhesCompraCartao");
 		modelAndView.addObject("compras", pagamentos);
 		modelAndView.addObject("origin", pagamentos[0].getOrigin());

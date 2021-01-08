@@ -29,6 +29,9 @@ import com.Teste.Aplication.util.SessionUtil;
 public class PagamentoController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	@Autowired
+	private RestTemplateUtil  restTemplateUtil;
 
 	@GetMapping("/comprar")
 	public String comprar(Pagamento compra) {
@@ -47,14 +50,13 @@ public class PagamentoController {
 		try {
 		User user = sessionUtil.getSession("user");
 		if (user == null) {
-			user = (User) RestTemplateUtil.getEntity("https://projeto-pag-api.herokuapp.com/api/usuarios/tokenPagamento/" + token,
-					User.class);
+			user = (User) restTemplateUtil.getEntity("/api/usuarios/tokenPagamento/" + token,User.class);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + user.getToken());
-		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil
-				.get("https://projeto-pag-api.herokuapp.com/api/compras/pagamento/" + token, headers, Pagamento.class);
+		ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) restTemplateUtil
+				.get("/api/compras/pagamento/" + token, headers, Pagamento.class);
 
 		Pagamento pagamento = responseEntity.getBody();
 
@@ -79,8 +81,8 @@ public class PagamentoController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Authorization", "Bearer " + user.getToken());
 			
-			Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
-					.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhes/" + user.getEmail(), headers, Pagamento[].class);
+			Pagamento[] pagamentos = (Pagamento[]) restTemplateUtil
+					.getEntity("/api/compras/detalhes/" + user.getEmail(), headers, Pagamento[].class);
 			
 			ModelAndView modelAndView = new ModelAndView("compra/detalhes");
 			modelAndView.addObject("compras", pagamentos);

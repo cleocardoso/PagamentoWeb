@@ -29,6 +29,9 @@ import com.Teste.Aplication.util.SessionUtil;
 public class UserController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	@Autowired
+	private RestTemplateUtil  restTemplateUtil;
 
 	
 	@GetMapping("/cadastrar")
@@ -42,7 +45,7 @@ public class UserController {
 			return new ModelAndView("user/cadastro");
 		}
 		ModelAndView view = new ModelAndView("login");
-		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/save";
+		String fooResourceUrl = "/api/usuarios/save";
 		try {
 			
 			MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -51,7 +54,7 @@ public class UserController {
 			params.add("senha", user.getSenha());
 
 			
-			ResponseEntity<User> responseEntity = (ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+			ResponseEntity<User> responseEntity = (ResponseEntity<User>) restTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
 			if(responseEntity.getStatusCode().is2xxSuccessful()) {
 				view.addObject("success", "Usuário Cadastrado com sucesso!");
 			}else if(responseEntity.getStatusCode().is5xxServerError()) {
@@ -91,13 +94,13 @@ public class UserController {
 
 	@PostMapping("/editar")
 	public String editar(User user, RedirectAttributes attr) {
-		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/updateUser/"+user.getId();
+		String fooResourceUrl = "/api/usuarios/updateUser/"+user.getId();
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("nome", user.getNome());
 		params.add("email", user.getEmail());
 		params.add("senha", user.getSenha());
 		
-		ResponseEntity<User> responseEntity = (ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.PUT, fooResourceUrl, params, User.class);
+		ResponseEntity<User> responseEntity = (ResponseEntity<User>) restTemplateUtil.sendByParams(HttpMethod.PUT, fooResourceUrl, params, User.class);
 		
 		if(responseEntity.getStatusCode().is2xxSuccessful()) {
 			attr.addFlashAttribute("success", "Seus dados foram alterados com sucesso!");
@@ -123,12 +126,12 @@ public class UserController {
 	
 	@PostMapping("/trocarSenha")
 	public ModelAndView entrar(@RequestParam("email") String email,RedirectAttributes attrs) {
-		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/trocarSenha";
+		String fooResourceUrl = "/api/usuarios/trocarSenha";
 		try {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("email", email);
 		ResponseEntity<User> responseEntity = 
-				(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+				(ResponseEntity<User>) restTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
 		
 		if(responseEntity.getStatusCode().is2xxSuccessful()) {
 			attrs.addAttribute("success","Enviando o email para alterar a senha");

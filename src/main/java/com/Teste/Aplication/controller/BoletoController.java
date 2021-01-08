@@ -30,6 +30,9 @@ public class BoletoController {
 	private Integer quantidade = null;
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	@Autowired
+	private RestTemplateUtil  restTemplateUtil;
 
 	@SuppressWarnings("unchecked")
 	@GetMapping("/boleto")
@@ -46,8 +49,7 @@ public class BoletoController {
 
 			String url = "https://projeto-pag-api.herokuapp.com/api/compras/saveCompra";
 
-			Pagamento pagamento = (Pagamento) RestTemplateUtil
-					.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
+			Pagamento pagamento = (Pagamento) restTemplateUtil.getEntity("/api/compras/detalhesCompra/" + id, headers, Pagamento.class);
 
 			sessionUtil.criarSession("user", pagamento.getUsuario());
 			
@@ -58,7 +60,7 @@ public class BoletoController {
 			pagamento.setTipoPagamento(TipoPagamento.BOLETO);
 
 			try {
-				ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) RestTemplateUtil.post(url, headers,
+				ResponseEntity<Pagamento> responseEntity = (ResponseEntity<Pagamento>) restTemplateUtil.post(url, headers,
 						pagamento, Pagamento.class);
 
 				if (responseEntity.getStatusCode().is2xxSuccessful()) {
@@ -78,8 +80,8 @@ public class BoletoController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + sessionUtil.getSession("user").getToken());
 		
-		Pagamento[] pagamentos = (Pagamento[]) RestTemplateUtil
-				.getEntity("https://projeto-pag-api.herokuapp.com/api/compras/detalhesCompraIdBoleto/" + id_boleto, headers, Pagamento[].class);
+		Pagamento[] pagamentos = (Pagamento[]) restTemplateUtil
+				.getEntity("/api/compras/detalhesCompraIdBoleto/" + id_boleto, headers, Pagamento[].class);
 		ModelAndView modelAndView = new ModelAndView("compra/boleto");
 		modelAndView.addObject("compra", pagamentos[0]);
 		modelAndView.addObject("origin", pagamentos[0].getOrigin());

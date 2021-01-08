@@ -31,7 +31,7 @@
 			<h6>PAGÁVEL EM QUALQUER BANCO ATÉ O VENCIMENTO</h6>
 			<hr>
 			<p>Data do documento</p>
-			<h6 th:text="${compra.dataCompra}"></h6>
+			<h6 th:text="${#dates.format(compra.dataCompra, 'dd/MM/yyyy')}"></h6>
 			<hr>
 			<p>Sacador</p>
 			<h6>Sistema de pagamentos Integrador</h6>
@@ -42,7 +42,7 @@
 		</div>
 		<p>Vencimento
 		<p>
-		<h6 th:text="${compra.boleto.dataVencimento}"></h6>
+		<h6 th:text="${#dates.format(compra.boleto.dataVencimento, 'dd/MM/yyyy')}"></h6>
 		<hr>
 		<p>Valor documento</p>
 		<h6>R$ <span

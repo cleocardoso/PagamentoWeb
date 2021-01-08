@@ -21,6 +21,9 @@ import com.Teste.Aplication.util.SessionUtil;
 public class LoginController {
 	@Autowired
 	private SessionUtil<User> sessionUtil;
+	
+	@Autowired
+	private RestTemplateUtil  restTemplateUtil;
 
 	@GetMapping("/")
 	public String login() {
@@ -30,13 +33,13 @@ public class LoginController {
 	@PostMapping("/entrar")
 	public ModelAndView entrar(@RequestParam("username") String username, @RequestParam("password") String senha,RedirectAttributes attrs) {
 		//String fooResourceUrl = "http://localhost:8081/api/usuarios/login";
-		String fooResourceUrl = "https://projeto-pag-api.herokuapp.com/api/usuarios/login";
+		String fooResourceUrl = "/api/usuarios/login";
 		try {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("email", username);
 		params.add("senha", senha);
 		ResponseEntity<User> responseEntity = 
-				(ResponseEntity<User>) RestTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
+				(ResponseEntity<User>) restTemplateUtil.sendByParams(HttpMethod.POST, fooResourceUrl, params, User.class);
 		
 		if(responseEntity.getStatusCode().is2xxSuccessful()) {
 			sessionUtil.criarSession("user", responseEntity.getBody());
