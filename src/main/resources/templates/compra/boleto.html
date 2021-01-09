@@ -20,6 +20,7 @@
 				</a>
 			</div>
 		</nav>
+		<div style="padding:25px;">
 		<div th:replace="fragments/alert"></div>
 		<h4>
 			BANCO DO BRASIL | 001-9 | 00198.49546 10015.336083 00007.702194 1 <span
@@ -38,27 +39,27 @@
 			<h6>Av. São Paulo, 1007</h6>
 			<h6>Centro - Portalegre/RN - CEP: 59810-000</h6>
 		</div>
-		<div style="float: right; width: 40%">
-		</div>
+		<div style="float: right; width: 40%"></div>
 		<p>Vencimento
 		<p>
 		<h6 th:text="${compra.boleto.dataVencimento}"></h6>
 		<hr>
 		<p>Valor documento</p>
-		<h6>R$ <span
-				th:text="${compra.valor}"></span></h6>
+		<h6>
+			R$ <span th:text="${compra.valor}"></span>
+		</h6>
 		<hr>
 		<p>Cedente</p>
 		<h6 th:text="${compra.usuario.nome}"></h6>
 		<h6 th:text="${compra.usuario.email}"></h6>
 		<div style="clear: both"></div>
-		
+
 		<div class="pl-2 p-2">
 			<a th:href="${origin}" class="btn btn-success">Voltar</a>
 		</div>
 
 		<br>
-
+	</div>
 	</section>
 
 </body>

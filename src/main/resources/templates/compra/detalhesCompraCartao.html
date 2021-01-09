@@ -42,7 +42,7 @@
 						<td th:text="${compra.usuario.nome}"></td>
 						<td th:text="${compra.quantidade}"></td>
 						<td th:text="${compra.valor}"></td>
-						<td th:text="${compra.dataCompra}"></td>
+						<td th:text="${#dates.format(compra.dataCompra, 'dd/MM/yyyy')}"></td>
 						<th:block th:if="${compra.cartao != null}">
 							<td th:text="${compra.cartao.qtd_parcelas}"></td>
 							<td th:text="${compra.cartao.valor_parcelado}"></td>

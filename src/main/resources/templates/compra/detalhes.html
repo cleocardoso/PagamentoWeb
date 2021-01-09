@@ -32,7 +32,9 @@
 						<th>Tipo de Pagamento</th>
 						<th>Valor</th>
 						<th>Status</th>
-						<th>Parcelas de</th>
+						<th>Parcelas </th>
+						<th>Valor das parcelas</th>
+						<th>Ação</th>
 
 
 					</tr>
@@ -40,7 +42,7 @@
 				<tbody>
 
 					<tr th:each="compra : ${compras}">
-						<td th:text="${compra.dataCompra}"></td>
+						<td th:text="${#dates.format(compra.dataCompra, 'dd/MM/yyyy')}"></td>
 						<td th:text="${compra.quantidade}"></td>
 						<td th:text="${compra.tipoPagamento}"></td>
 						<td th:text="${compra.valor}"></td>
@@ -48,11 +50,17 @@
 						<th:block th:if="${compra.cartao != null}">
 							<td th:text="${compra.cartao.qtd_parcelas}"></td>
 							<td th:text="${compra.cartao.valor_parcelado}"></td>
+							<td>
+							<a class="btn btn-primary" th:href="@{/cartao/detalhesCompraIdCartao/{id}(id=${compra.cartao.id_cartao})}">Visualizar</a>
+						    </td>
 						</th:block>
 						<td></td>
-
+						<td></td>
+						<td th:if="${compra.boleto != null}">
+						<a class="btn btn-primary" th:href="@{/boleto/detalhesCompraIdBoleto/{id}(id=${compra.boleto.idBoleto})}">Visualizar</a>
+						</td>
 					</tr>
-
+                  
 				</tbody>
 			</table>
 		</div>

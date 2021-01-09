@@ -10,7 +10,7 @@
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><i class="oi oi-caret-right"></i>
-						<span>Compra</span></li>
+						<span>Pagamento</span></li>
 				</ul>
 				<a class="btn btn-primary btn-md" href="/compras/detalhes"
 					role="button"> <span class="oi oi-plus" title="Cadastro"
@@ -26,7 +26,7 @@
 			<div class="container">
 				<div class="card card-register mx-auto mt-4">
 					<div class="card-header">
-						<i class="fa-fighter-jet"></i> Comprar 
+						<i class="fa-fighter-jet"></i> Pagamento 
 					</div>
 
 					<div class="card-body">
@@ -40,7 +40,7 @@
 								<div class="col-md-6">
 									<small class="form-text text-muted">Informe a
 										Quantidade</small> <input type="text" id="quantidade"
-										onkeyup="keyNumber(this)" class="form-control"
+										onkeyup="keyNumber(this)" value="1" class="form-control"
 										th:field="*{quantidade}" autofocus="autofocus" required>
 								</div>
 								<div class="invalid-feedback"></div>
@@ -58,7 +58,7 @@
 							</div>  -->
 
 							<div class="col-md-8">
-								<input type="text" id="valor"
+								<input type="text" id="valor" 
 									class="form-control" th:field="*{valor}"
 									autofocus="autofocus" required>
 							</div>
@@ -75,7 +75,7 @@
 									<option value="CARTAO">Cartao</option>
 								</select> <br>
 								<div>
-									<button type="submit" class="btn btn-primary btn-sm">Comprar</button>
+									<button type="submit" class="btn btn-primary btn-sm">Pagar</button>
 								</div>
 								<br>
 
