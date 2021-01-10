@@ -60,6 +60,18 @@ Tela de compra que o usuário irá acessar através do link após enviar os dado
 POST   https://projeto-pag-api.herokuapp.com/api/usuarios/login    Login
 
 POST  https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de acesso a tela compra.
+
+
+
+**Serviços com a realização de testes com a documentação Swagger**
+
+Api disponibilizada  para os demais módulos que irão consumir do módulo pagamento através da documentação Swagger.
+
+usuario-json: Usuario Json,   para cadastrar um novo usuário, usuário fazer login e detalhes do usuário pelo email.
+
+pagamento-json : Pagamento Json,  para retornar todos os pagamentos feitos pelo usuário, gerar o link para acessar a tela pagamento.
+
+
   
 
 
