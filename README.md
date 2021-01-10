@@ -25,13 +25,25 @@ link para acesso a aplicação Web: https://projeto-pag-web.herokuapp.com/
 
 Caminho para passar as informações no Postman: https://projeto-pag-api.herokuapp.com/
 
-Login com a requisição POST
 
-![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/LOGINn(1).jpeg)
+Podemos criar um novo usuário com a requisição post, passando por parâmetros nome email e senha.
+
+Se os dados forem passados corretamente retornará ao status 201.
+
+Se os dados forem passados incorretos retornará ao status de erro 500.
+
+![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/PAGAE.png)
+
+
+Login  utilizando Postman com a requisição Post,  passando por parâmetros email e senha. Mostrado como resposta os dados do usuário cadastrado e o token gerado após as informações dos dados.
 
 Se os dados forem passados corretamente retornará ao status 200.
 
-Se os dados forem passados incorretos retornará ao status 404.
+Se os dados forem passados incorretos retornará ao status de erro 404.
+
+
+![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/LOGINn(1).jpeg)
+
 
 Dados passados para realizar a compra com a requisição POST.
 
