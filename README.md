@@ -45,33 +45,41 @@ Se os dados forem passados incorretos retornará ao status de erro 404.
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/LOGINn(1).jpeg)
 
 
-Dados passados para realizar a compra com a requisição POST.
+Autenticação para gerar link da tela de compras em uma requisição Post, passando a origem de destino  e a autenticação token  no Headers. A origem de onde veio a requisição é obrigatória e a autenticação token, passada com a palavra  Bearer  na frente do token gerado.
+
+Se os dados forem passados corretamente retornará ao status 200.
+
+Se os dados forem passados incorretos retornará ao status de erro 404.
+
+![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/GERARLINK.jpeg)
+
+
+No mesmo método gerar link na requisição Post, informa por parâmetros o valor, data e o id do usuário que fez a autenticação.  Se os dados forem passados corretamente ao enviar a requisição ele retornará a uma resposta com o link da página de compra web.
+
+Se os dados forem passados corretamente retornará ao status 200.
+
+Se os dados forem passados incorretos retornará ao status de erro 404.
+
 
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/DADOS.jpeg)
 
 
-Passando Authenticação e origem no Headers para gerar o link de acesso a tela Compra.
 
-![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/GERARLINK.jpeg)
+Após passar os dados corretamente o link é gerado, e pode ser copiado e colado no browser,  feito isso o usuário entrará na tela de compra onde recebemos o valor e informamos a quantidade desejada do que foi comprado e escolher a forma de pagamento desejada pelo usuário boleto ou cartão. 
+A tela de compra poderá ser acessada através do link após o usuário enviar os dados necessários e fazer o consumo dos serviços de compra. Informando a quantidade de itens, a tela mostra o valor unitário e o valor total de acordo com a quantidade escolhida. E mostra a opção de escolha de pagamento via boleto ou cartão.
 
-Se os dados forem passados corretamente retornará ao status 200.
-
-Se os dados forem passados incorretos retornará ao status 404.
-
-
-Tela de compra que o usuário irá acessar através do link após enviar os dados necessários e fazer o consumo dos serviços. Informando a quantidade de itens escohidos.
 
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/Compra.png)
 
 
-
-
-
 **Caminhos da api Passados no Postman:**
+Requisição para salvar os dados.
 
-POST   https://projeto-pag-api.herokuapp.com/api/usuarios/login    Login
+POST    https://projeto-pag-api.herokuapp.com/api/usuarios/save   Salvar Usúario
 
-POST  https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de acesso a tela compra.
+POST    https://projeto-pag-api.herokuapp.com/api/usuarios/login    Login
+
+POST    https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de acesso a tela compra.
 
 
 
@@ -79,9 +87,9 @@ POST  https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de
 
 Api disponibilizada  para os demais módulos que irão consumir do módulo pagamento através da documentação Swagger.
 
-usuario-json: Usuario Json,   para cadastrar um novo usuário, usuário fazer login e detalhes do usuário pelo email.
+**usuario-json: Usuario Json**,   para cadastrar um novo usuário, usuário fazer login e detalhes do usuário pelo email.
 
-pagamento-json : Pagamento Json,  para retornar todos os pagamentos feitos pelo usuário, gerar o link para acessar a tela pagamento.
+**pagamento-json : Pagamento Json**,  para retornar todos os pagamentos feitos pelo usuário, gerar o link para acessar a tela pagamento.
 
 
   
