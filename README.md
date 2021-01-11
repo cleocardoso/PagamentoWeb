@@ -1,13 +1,19 @@
-# Sistema Pagamento
+#  PagamentoWeb
 **Projeto Integrador**
+
 
 
 ### Características
 
-Spring Boot REST API. O serviço de pagamento possui um serviço que os demais módulos devem consumir para a forma de pagamento com boleto ou cartão. O sistema divide-se em duas aplicações distribuídas, uma web e outra api para o consumo de dados.
+O  projeto proposto visou elaborar e desenvolver um software para o módulo de pagamento, o objetivo geral desse projeto é desenvolver uma Api de pagamento para os demais módulos consumirem. O sistema divide-se em duas aplicações distribuídas, uma web e outra api para o consumo de dados. O sistema foi desenvolvido utilizando a plataforma Java EE, JavaScript, API JPA para a persistência de dados, o framework de componentes Model-View-Controller, e o framework spring boot. Para o armazenamento das informações foi utilizado o banco de dados MySQL. Foi utilizado o serviço de hospedagem do Heroku para a hospedagem  da api.
 
+### Apresentação 
+
+O usuário se cadastra no sistema com o nome, email e senha. Faz login no sistema,  escolhe o valor a ser pago e a forma de pagamento cartão ou boleto. Caso a opção escolhida seja cartão, o sistema deve verificar se o número do cartão é válido, e só deve efetivar o pagamento em caso de validado. O módulo de pagamento pode receber solicitações externas para pagamento.  O usuário poderá visualizar as transações que já foram efetuadas por ele, seja no sistema de pagamento, ou seja em outro sistema que utiliza o módulo de pagamento.
 
 link para acesso a aplicação Web: https://projeto-pag-web.herokuapp.com/
+
+link para documentação Swagger: https://projeto-pag-api.herokuapp.com/swagger-ui.html
 
 
 ### Descrição 
@@ -72,6 +78,22 @@ A tela de compra poderá ser acessada através do link após o usuário enviar o
 ![](https://github.com/cleocardoso/PagamentoWeb/blob/main/IMAGENS/Compra.png)
 
 
+
+
+
+**Tabela com a descrição dos Serviços do Módulo de Pagamento**
+
+NOME | DESCRIÇÃO | TIPO | PARÂMETROS | STATUS DA RESPOSTA
+--------- | ------ | ------- | ------ | --------
+_Login_ | Usuário vai se logar para concluir o pagamento e escolher a forma de pagamento. | POST | Objeto JSON com dois parâmetros: email e senha | Retorna um objeto em formato JSON. | Retorna 200 caso as credenciais sejam válidas. Caso contrário retorna 404.
+_Salvar Pagamento_ | Salvar pagamento do usuário. | POST | Objeto JSON com os parâmetros: valor, data, e id do usuário. Além disso, enviar o token autenticado no header da requisição e a origem. | Retorna um objeto em formato JSON. | Retorna 200 caso o token seja autenticado e válido. Caso contrário retorna 403.
+_Salvar Usuário_ | Salvar usuario no banco de dados para fazer login |POST |Objeto JSON passando os parâmetros de nome, email e senha | Retorna um objeto em formato JSON. | Retorna status 201 se os dados forem passados corretamente, caso não exista no banco, e retorna status 500 ou se o usuário já existir no banco ou dados passados incorretos.
+
+
+
+
+
+
 **Caminhos da api Passados no Postman:**
 Requisição para salvar os dados.
 
@@ -83,13 +105,7 @@ POST    https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link 
 
 
 
-**Serviços com a realização de testes com a documentação Swagger**
 
-Api disponibilizada  para os demais módulos que irão consumir do módulo pagamento através da documentação Swagger.
-
-**usuario-json: Usuario Json**,   para cadastrar um novo usuário, usuário fazer login e detalhes do usuário pelo email.
-
-**pagamento-json : Pagamento Json**,  para retornar todos os pagamentos feitos pelo usuário, gerar o link para acessar a tela pagamento.
 
 
   
