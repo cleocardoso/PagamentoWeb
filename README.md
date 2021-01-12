@@ -5,7 +5,7 @@
 
 ### Características
 
-O  projeto proposto visou elaborar e desenvolver um software para o módulo de pagamento, o objetivo geral desse projeto é desenvolver uma Api de pagamento para os demais módulos consumirem. O sistema divide-se em duas aplicações distribuídas, uma web e outra api para o consumo de dados. O sistema foi desenvolvido utilizando a plataforma Java EE, JavaScript, API JPA para a persistência de dados, o framework de componentes Model-View-Controller, e o framework spring boot. Para o armazenamento das informações foi utilizado o banco de dados MySQL. Foi utilizado o serviço de hospedagem do Heroku para a hospedagem  da api.
+O  projeto proposto visou elaborar e desenvolver um software para o módulo de pagamento, o objetivo geral desse projeto é desenvolver uma Api de pagamento para os módulos Aéreo, Hospedagem e veículos consumirem. O sistema divide-se em duas aplicações distribuídas, uma web e outra api para o consumo de dados. O sistema foi desenvolvido utilizando a plataforma Java EE, JavaScript, API JPA para a persistência de dados, o framework de componentes Model-View-Controller, e o framework spring boot. Para o armazenamento das informações foi utilizado o banco de dados MySQL. Foi utilizado o serviço de hospedagem do Heroku para a hospedagem  da api.
 
 ### Apresentação 
 
