@@ -9,7 +9,7 @@ O  projeto proposto visou elaborar e desenvolver um software para o módulo de p
 
 ### Apresentação 
 
-O usuário se cadastra no sistema com o nome, email e senha. Faz login no sistema,  escolhe o valor a ser pago e a forma de pagamento cartão ou boleto. Caso a opção escolhida seja cartão, o sistema deve verificar se o número do cartão é válido, e só deve efetivar o pagamento em caso de validado. O módulo de pagamento pode receber solicitações externas para pagamento.  O usuário poderá visualizar as transações que já foram efetuadas por ele, seja no sistema de pagamento, ou seja em outro sistema que utiliza o módulo de pagamento.
+Os usuários dos módulos Aéreo, Hospedagem e veículos  poderão se cadastrar no sistema com o nome, email e senha. Fazer login no sistema,  informar o valor a ser pago e a forma de pagamento cartão ou boleto. Caso a opção escolhida seja cartão, o sistema deve verificar se o número do cartão é válido, e só deve efetivar o pagamento em caso de validado. O usuário poderá visualizar as transações que já foram efetuadas por ele.
 
 link para acesso a aplicação Web: https://projeto-pag-web.herokuapp.com/
 
