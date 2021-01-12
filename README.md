@@ -101,7 +101,7 @@ POST    https://projeto-pag-api.herokuapp.com/api/usuarios/save   Salvar Usúari
 
 POST    https://projeto-pag-api.herokuapp.com/api/usuarios/login    Login
 
-POST    https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de acesso a tela compra.
+POST    https://projeto-pag-api.herokuapp.com/api/compras/gerarLink  Gerar Link de acesso a tela de pagamento.
 
 
 
